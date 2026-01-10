@@ -1,0 +1,15 @@
+superuser
+username: rmars
+password: Coder119!
+
+jeff - no secret access
+username: jeff
+password: password123jeff
+
+duncan - secret access
+username: duncan
+password: password123duncan
+
+steve - secret and supervisor
+username: steve
+password: password123steve

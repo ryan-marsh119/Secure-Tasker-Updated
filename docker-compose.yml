@@ -1,0 +1,44 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:18
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tasker_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/
+
+  backend:
+    container_name: backend
+    image: backend
+    build: backend
+    restart: always
+    env_file:
+      - backend/.env
+    depends_on:
+      - postgres
+
+  frontend:
+    container_name: frontend
+    image: frontend
+    build: frontend
+    restart: always
+    depends_on:
+      - backend   
+
+  nginx:
+    container_name: nginx
+    image: nginx:1.29.4
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  postgres_data:
