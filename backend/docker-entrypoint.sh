@@ -1,5 +1,5 @@
 #!/bin/bash
-uv run manage.py collectstatic --noinput
-uv run manage.py makemigrations
-uv run manage.py migrate
-uv run gunicorn mysite.wsgi
+python manage.py collectstatic --noinput
+python manage.py makemigrations
+python manage.py migrate
+gunicorn mysite.wsgi

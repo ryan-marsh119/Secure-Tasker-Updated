@@ -9,5 +9,5 @@ class SecretDataTest(APITestCase):
         self.assertTrue(True)
 
     def test_new(self):
-        print("HEEEEELP!!!!")
+        print("LETS GET IT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         self.assertTrue(True)

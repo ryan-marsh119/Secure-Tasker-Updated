@@ -6,13 +6,11 @@ EXPOSE 8000
 
 WORKDIR /app
 
-COPY pyproject.toml uv.lock .
+COPY pyproject.toml uv.lock ./
 
 RUN uv sync --frozen
 
-COPY . /app
-
-ENV PATH="/app/.venv/bin:$PATH"
+COPY . ./
 
 RUN chmod a+x docker-entrypoint.sh
 
