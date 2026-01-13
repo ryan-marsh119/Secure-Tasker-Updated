@@ -1,0 +1,41 @@
+/api/admin/	django.contrib.admin.sites.index	admin:index
+/api/admin/<app_label>/	django.contrib.admin.sites.app_index	admin:app_list
+/api/admin/<url>	django.contrib.admin.sites.catch_all_view
+/api/admin/auth/group/	django.contrib.admin.options.changelist_view	admin:auth_group_changelist
+/api/admin/auth/group/<path:object_id>/	django.views.generic.base.RedirectView
+/api/admin/auth/group/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:auth_group_change
+/api/admin/auth/group/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:auth_group_delete
+/api/admin/auth/group/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:auth_group_history
+/api/admin/auth/group/add/	django.contrib.admin.options.add_view	admin:auth_group_add
+/api/admin/auth/user/	django.contrib.admin.options.changelist_view	admin:auth_user_changelist
+/api/admin/auth/user/<id>/password/	django.contrib.auth.admin.user_change_password	admin:auth_user_password_change
+/api/admin/auth/user/<path:object_id>/	django.views.generic.base.RedirectView
+/api/admin/auth/user/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:auth_user_change
+/api/admin/auth/user/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:auth_user_delete
+/api/admin/auth/user/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:auth_user_history
+/api/admin/auth/user/add/	django.contrib.auth.admin.add_view	admin:auth_user_add
+/api/admin/autocomplete/	django.contrib.admin.sites.autocomplete_view	admin:autocomplete
+/api/admin/jsi18n/	django.contrib.admin.sites.i18n_javascript	admin:jsi18n
+/api/admin/login/	django.contrib.admin.sites.login	admin:login
+/api/admin/logout/	django.contrib.admin.sites.logout	admin:logout
+/api/admin/password_change/	django.contrib.admin.sites.password_change	admin:password_change
+/api/admin/password_change/done/	django.contrib.admin.sites.password_change_done	admin:password_change_done
+/api/admin/r/<path:content_type_id>/<path:object_id>/	django.contrib.contenttypes.views.shortcut	admin:view_on_site
+/api/admin/secret_data/secretleveldata/	django.contrib.admin.options.changelist_view	admin:secret_data_secretleveldata_changelist
+/api/admin/secret_data/secretleveldata/<path:object_id>/	django.views.generic.base.RedirectView
+/api/admin/secret_data/secretleveldata/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:secret_data_secretleveldata_change
+/api/admin/secret_data/secretleveldata/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:secret_data_secretleveldata_delete
+/api/admin/secret_data/secretleveldata/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:secret_data_secretleveldata_history
+/api/admin/secret_data/secretleveldata/add/	django.contrib.admin.options.add_view	admin:secret_data_secretleveldata_add
+/api/admin/tasks/task/	django.contrib.admin.options.changelist_view	admin:tasks_task_changelist
+/api/admin/tasks/task/<path:object_id>/	django.views.generic.base.RedirectView
+/api/admin/tasks/task/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:tasks_task_change
+/api/admin/tasks/task/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:tasks_task_delete
+/api/admin/tasks/task/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:tasks_task_history
+/api/admin/tasks/task/add/	django.contrib.admin.options.add_view	admin:tasks_task_add
+/api/secret/	secret_data.views.SecretLevelView	secret-level
+/api/secret/user-permissions/	secret_data.views.UserPermissionsView	user-permissions
+/api/tasks/	tasks.views.TaskList	task-list
+/api/tasks/<int:pk>/	tasks.views.TaskDetail	task-detail
+/api/token/	rest_framework_simplejwt.views.TokenObtainPairView	token_obtain_pair
+/api/token/refresh/	rest_framework_simplejwt.views.TokenRefreshView	token_refresh

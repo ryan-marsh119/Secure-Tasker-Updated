@@ -16,17 +16,21 @@ services:
     build: backend
     restart: always
     env_file:
-      - backend/.env
+      - ./backend/.env
     depends_on:
       - postgres
-
+    volumes:
+      - ./backend:/backend:cached
+    
   frontend:
     container_name: frontend
     image: frontend
     build: frontend
     restart: always
     depends_on:
-      - backend   
+      - backend
+    volumes:
+      - ./frontend:/app
 
   nginx:
     container_name: nginx

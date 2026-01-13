@@ -2,6 +2,11 @@ superuser
 username: rmars
 password: Coder119!
 
+docker superuser:
+username: rmars
+email: ryan@email.com
+password: password
+
 jeff - no secret access
 username: jeff
 password: password123jeff

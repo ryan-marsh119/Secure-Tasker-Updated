@@ -1,0 +1,8 @@
+login request attempts
+https://django-axes.readthedocs.io/en/latest/
+
+testing
+https://www.django-rest-framework.org/api-guide/testing/
+
+project ref
+https://gitlab.com/justinfarnsworth.io/applications/reunion

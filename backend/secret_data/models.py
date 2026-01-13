@@ -7,7 +7,3 @@ class SecretLevelData(models.Model):
 
     class Meta:
         verbose_name_plural = "Secret Level Data"
-
-        permissions = [
-            ("view_secret_level_data", "Can view secret level data."),
-        ]
