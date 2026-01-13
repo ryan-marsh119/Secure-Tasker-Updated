@@ -20,7 +20,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./backend:/backend:cached
+      - ./backend:/app:cached
     
   frontend:
     container_name: frontend

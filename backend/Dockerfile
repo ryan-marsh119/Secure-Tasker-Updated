@@ -4,15 +4,15 @@ ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 
-WORKDIR /backend
+WORKDIR /app
 
 COPY pyproject.toml uv.lock .
 
 RUN uv sync --frozen
 
-COPY . /backend
+COPY . /app
 
-ENV PATH = "/backend/.venv/bin:$PATH"
+ENV PATH="/app/.venv/bin:$PATH"
 
 RUN chmod a+x docker-entrypoint.sh
 
