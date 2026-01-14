@@ -16,7 +16,7 @@ class UserPermissionsView(APIView):
         })
 
 class SecretLevelView(APIView):
-    permission_classes = [IsAuthenticated, IsInSecretGroup, IsInSupervisorGroup]
+    permission_classes = [IsAuthenticated, IsInSecretGroup]
 
     def get(self, request):
         data = SecretLevelData.objects.all()

@@ -6,3 +6,6 @@ https://www.django-rest-framework.org/api-guide/testing/
 
 project ref
 https://gitlab.com/justinfarnsworth.io/applications/reunion
+
+Django Groups reference
+https://medium.com/django-unleashed/managing-user-permissions-and-groups-in-django-b8ab674314f5

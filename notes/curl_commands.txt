@@ -1,5 +1,8 @@
 get a token and login:
-    curl http://127.0.0.1:8000/api/token/ -H "Content-Type: application/json" -d "{\"username\": \"admin\", \"password\": \"Coder119!\"}"
+
+admin:	curl http://127.0.0.1:8000/api/token/ -H "Content-Type: application/json" -d "{\"username\": \"admin\", \"password\": \"Coder119!\"}"
+
+regular user:	curl http://127.0.0.1:8000/api/token/ -H "Content-Type: application/json" -d "{"username": "username", "password": "password"}"
 
 make a request w/ token
     curl http://127.0.0.1:8000/ -H "Authorization: Bearer <token>"

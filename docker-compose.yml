@@ -19,8 +19,6 @@ services:
       - ./backend/.env
     depends_on:
       - postgres
-    volumes:
-      - ./backend:/app:cached
     
   frontend:
     container_name: frontend
@@ -29,8 +27,6 @@ services:
     restart: always
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/app
 
   nginx:
     container_name: nginx
