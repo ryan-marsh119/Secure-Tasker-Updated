@@ -2,28 +2,20 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import TaskSerializer
 from .models import Task
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
 from rest_framework import status
 from cryptography.fernet import InvalidToken
-from secret_data.permissions import IsInSecretGroup
+from secret_data.permissions import IsInSecretGroup, IsInSupervisorGroup
+from django.http import Http404
         
-class TaskList(ListCreateAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
+class TaskList(APIView):
     permission_classes = [IsAuthenticated, IsInSecretGroup]
 
-    def list(self, request, *args, **kwargs):
+    def get(self, request):
         try:
-            queryset = self.get_queryset()
-            serializer = self.get_serializer(queryset, many=True)
+            tasks = Task.objects.all()
+            serializer = TaskSerializer(tasks, many=True)
 
-            for item in serializer.data:
-                description = item.get('description', '')
-                #Strings starting with 'gAAAAA' from Fernet are still encrypted, meaning decryption failed.
-                if description and description.startswith('gAAAAA'):
-                    raise InvalidToken("Failed to decrypt task data")
             return Response(serializer.data)
 
         except InvalidToken:
@@ -32,23 +24,73 @@ class TaskList(ListCreateAPIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )    
     
-class TaskDetail(RetrieveUpdateDestroyAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
+class TaskDetail(APIView):
     permission_classes = [IsAuthenticated, IsInSecretGroup]
 
-    def retrieve(self, request, *args, **kwargs):
+    def get_object(self, pk):
         try:
-            instance = self.get_object()
-            serializer = self.get_serializer(instance)
-            description = serializer.data.get('description', '')
-            #Strings starting with 'gAAAAA' from Fernet are still encrypted, meaning decryption failed.
-            if description and description.startswith('gAAAAA'):
-                raise InvalidToken("Failed to decrypt task data")
-            return Response(serializer.data)
+            return Task.objects.get(id=pk)
 
-        except InvalidToken:
-            return Response(
-                {"detail": "Failed to decrypt task data."},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )          
+        except Task.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        task = self.get_object(pk)
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
+
+    
+    def put(self, request, pk, format=None):
+        task = self.get_object(pk)
+        serializer=TaskSerializer(task, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TaskSupervisorList(APIView):
+    permission_classes = [IsAuthenticated, IsInSupervisorGroup]
+
+    def get(self, request, format=None):
+        tasks = Task.objects.all()
+        serializer = TaskSerializer(tasks, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TaskSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TaskSupervisorDetail(APIView):
+    permission_classes = [IsAuthenticated, IsInSupervisorGroup]
+
+    def get_object(self, pk):
+        try:
+            return Task.objects.get(id=pk)
+        
+        except Task.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        task = self.get_object(pk)
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        task = self.get_object(pk)
+        serializer = TaskSerializer(task, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request, pk, format=None):
+        task = self.get_object(pk)
+        task.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

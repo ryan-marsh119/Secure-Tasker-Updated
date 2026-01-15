@@ -1,5 +1,0 @@
-secret data with group permission "Secret Level Data" 
-    http://127.0.0.1:8000/secret_data/secret/
-
-token and login
-    http://127.0.0.1:8000/api/token/

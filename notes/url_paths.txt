@@ -37,5 +37,7 @@
 /api/secret/user-permissions/	secret_data.views.UserPermissionsView	user-permissions
 /api/tasks/	tasks.views.TaskList	task-list
 /api/tasks/<int:pk>/	tasks.views.TaskDetail	task-detail
+/api/tasks/supervisor/	tasks.views.TaskSupervisorList	task-supervisor-list
+/api/tasks/supervisor/<int:pk>/	tasks.views.TaskSupervisorDetail	task-supervisor-detail
 /api/token/	rest_framework_simplejwt.views.TokenObtainPairView	token_obtain_pair
 /api/token/refresh/	rest_framework_simplejwt.views.TokenRefreshView	token_refresh

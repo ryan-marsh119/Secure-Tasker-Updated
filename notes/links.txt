@@ -9,3 +9,9 @@ https://gitlab.com/justinfarnsworth.io/applications/reunion
 
 Django Groups reference
 https://medium.com/django-unleashed/managing-user-permissions-and-groups-in-django-b8ab674314f5
+
+Django SimpleJWT reference
+https://medium.com/django-unleashed/securing-django-rest-apis-with-jwt-authentication-using-simple-jwt-a-step-by-step-guide-28efa84666fe
+
+Django Extensions
+https://github.com/django-extensions/django-extensions

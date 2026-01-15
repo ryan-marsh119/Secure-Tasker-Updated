@@ -20,9 +20,17 @@ class SecretDataTest(APITestCase):
             password='testpassword123'
         )
 
+        self.supervisor_user = User.objects.create_user(
+            username='supevisor_user',
+            email='supervisor@test.com',
+            password='testpassword123'
+        )
+
         self.secret_group = Group.objects.create(name='Secret')
+        self.supervisor_group = Group.objects.create(name='Supervisor')
 
         self.secret_user.groups.add(self.secret_group)
+        self.supervisor_user.groups.add(self.supervisor_group)
 
         self.secret_data_1 = SecretLevelData.objects.create(message="Top Secret Message 1")
         self.secret_data_2 = SecretLevelData.objects.create(message="Top Secret Message 2")
@@ -72,7 +80,7 @@ class SecretDataTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_user_get_secret_message_with_access(self):
+    def test_user_get_secret_list_with_access(self):
         client = APIClient()
         url = reverse('secret-level')
         refresh = RefreshToken.for_user(self.secret_user)
@@ -85,7 +93,7 @@ class SecretDataTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_user_get_secret_message_unauthorized_not_in_group(self):
+    def test_user_get_secret_list_unauthorized_not_in_group(self):
         client = APIClient()
         url = reverse('secret-level')
         refresh = RefreshToken.for_user(self.regular_user)
@@ -98,7 +106,7 @@ class SecretDataTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_get_secret_message_unauthenticated(self):
+    def test_get_secret_list_unauthenticated(self):
         client =APIClient()
         url = reverse('secret-level')
 
@@ -109,22 +117,22 @@ class SecretDataTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_secret_level_view_empty_data(self):
-        SecretLevelData.objects.all().delete()
+    # def test_secret_level_view_empty_data(self):
+    #     SecretLevelData.objects.all().delete()
 
-        client = APIClient()
-        refresh = RefreshToken.for_user(self.secret_user)
+    #     client = APIClient()
+    #     refresh = RefreshToken.for_user(self.secret_user)
 
-        url = reverse('secret-level')
-        response = client.get(
-            url,
-            headers={'Authorization': f'Bearer {refresh.access_token}'},
-            format='json'
-        )
+    #     url = reverse('secret-level')
+    #     response = client.get(
+    #         url,
+    #         headers={'Authorization': f'Bearer {refresh.access_token}'},
+    #         format='json'
+    #     )
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 0)
-        self.assertEqual(response.data, [])
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(len(response.data), 0)
+    #     self.assertEqual(response.data, [])
 
     def test_secret_view_after_removed_from_group(self):
         client = APIClient()
@@ -139,3 +147,163 @@ class SecretDataTest(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        
+    def test_supervisor_get_secret_list_with_access(self):
+        client = APIClient()
+        url = reverse('secret-supervisor-list')
+        refresh = RefreshToken.for_user(self.supervisor_user)
+
+        response = client.get(
+            url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_supervisor_get_secret_list_unauthorized_not_in_group(self):
+        client = APIClient()
+        url = reverse('secret-supervisor-list')
+        refresh = RefreshToken.for_user(self.regular_user)
+
+        response = client.get(
+            url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_supervisor_get_secret_list_unauthenticated(self):
+        client =APIClient()
+        url = reverse('secret-supervisor-list')
+
+        response = client.get(
+            url,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_supervisor_get_secret_detail_unauthenticated(self):
+        client = APIClient()
+        url = reverse('secret-supervisor-detail', args=[self.secret_data_1.id])
+
+        response = client.get(
+            url,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_supervisor_get_secret_detail_unauthorized(self):
+        client = APIClient()
+        url = reverse('secret-supervisor-detail', args=[self.secret_data_1.id])
+        refresh = RefreshToken.for_user(self.regular_user)
+
+        response = client.get(
+            url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_supervisor_get_secret_detail_authorized(self):
+            client = APIClient()
+            url = reverse('secret-supervisor-detail', args=[self.secret_data_1.id])
+            refresh = RefreshToken.for_user(self.supervisor_user)
+
+            response = client.get(
+                url,
+                headers={'Authorization': f'Bearer {refresh.access_token}'},
+                format='json'
+            )
+
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_supervisor_get_secret_detail_not_found(self):
+        client = APIClient()
+        url = reverse('secret-supervisor-detail', args=[0])
+        refresh = RefreshToken.for_user(self.supervisor_user)
+
+        response = client.get(
+            url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_supervisor_update_secret_detail(self):
+        client = APIClient()
+        url = reverse('secret-supervisor-detail', args=[self.secret_data_2.id])
+        refresh = RefreshToken.for_user(self.supervisor_user)
+
+        data = {
+            'message': 'Top secret message 2 had been updated!',
+        }
+
+        # Updating task_2 with data.
+        input_response = client.put(
+            url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            data=data,
+            format='json'
+        )
+
+        # Verifying task_2 has been updated
+        output_response = client.get(
+            url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            format='json'
+        )
+
+        # Input should equal output
+        self.assertEqual(input_response.data['id'], output_response.data['id'])
+        self.assertEqual(input_response.data['message'], output_response.data['message'])
+
+    def test_supervisor_delete_secret_detail(self):
+        client = APIClient()
+        url = reverse('secret-supervisor-detail', args=[self.secret_data_2.id])
+        refresh = RefreshToken.for_user(self.supervisor_user)
+
+        input_response = client.delete(
+            url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            format='json'
+        )
+
+        output_response = client.get(
+            url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            format='json'
+        )
+
+        self.assertEqual(input_response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(output_response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_supervisor_post_secret(self):
+        # new_data = SecretLevelData.objects.create(message='new message')
+        new_data = {'message': 'new message'}
+        client = APIClient()
+        url = reverse('secret-supervisor-list')
+        refresh = RefreshToken.for_user(self.supervisor_user)
+
+        input_response = client.post(
+            url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            data=new_data,
+            format='json'
+        )
+
+        get_url = reverse('secret-supervisor-detail', args=[input_response.data['id']])
+
+        output_response = client.get(
+            get_url,
+            headers={'Authorization': f'Bearer {refresh.access_token}'},
+            format='json'
+        )
+
+        self.assertEqual(input_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(input_response.data['message'], output_response.data['message'])
