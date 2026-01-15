@@ -2,11 +2,11 @@ superuser
 username: rmars
 password: Coder119!
 
-jeff - no secret access
+jeff - secret access
 username: jeff
 password: password123jeff
 
-duncan - secret access
+duncan - no access
 username: Duncan
 email: duncan@email.com
 password: password123duncan

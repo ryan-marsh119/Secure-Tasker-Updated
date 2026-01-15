@@ -11,10 +11,29 @@ class UserPermissionsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        user = request.user
+        is_supervisor = user.groups.filter(name='Supervisor').exists()
+        is_secret = user.groups.filter(name='Secret').exists()  # Check both
+
         return Response({
-            'has_secret_access': request.user.groups.filter(name='Secret').exists(),
-            'username': request.user.username,
+            'is_supervisor': is_supervisor,
+            'is_secret': is_secret,
+            'username': user.username,
         })
+
+class SecretDetail(APIView):
+    permission_classes = [IsAuthenticated, IsInSecretGroup]
+
+    def get_object(self, pk):
+        try:
+            return SecretLevelData.objects.get(id=pk)
+        except SecretLevelData.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        secret = self.get_object(pk)
+        serializer = SecretLevelDataSerializer(secret)
+        return Response(serializer.data)
 
 class SecretLevelView(APIView):
     permission_classes = [IsAuthenticated, IsInSecretGroup]

@@ -42,7 +42,7 @@ export const register = async (username, email, password, confirmPassword) => {
     }
     try {
         // TODO: Replace with actual /api/register/ when backend is ready
-        const response = await api.post('/api/register', {username, email, password});
+        await api.post('/api/register', {username, email, password});
         // Auto=login agter register
 
         return await login(username, password);
@@ -54,7 +54,7 @@ export const register = async (username, email, password, confirmPassword) => {
 
 // Refresh access token
 export const refreshToken = async () => {
-    const refresh = localStorage.geItem('refresh_token')
+    const refresh = localStorage.getItem('refresh_token')
     if (!refresh) throw { detail: 'No refresh token' };
     try {
         const response = await api.post('/api/token/refresh/', { refresh });

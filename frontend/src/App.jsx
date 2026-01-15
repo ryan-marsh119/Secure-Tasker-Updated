@@ -1,38 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import.meta.env.VITE_API_BASE_URL
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
+import TaskList from './components/TaskList';
+import TaskDetail from './components/TaskDetail';
+import TaskForm from './components/TaskForm';
+import SecretList from './components/SecretList';
+import SecretDetail from './components/SecretDetail';
+import SecretForm from './components/SecretForm';
+import Layout from './components/Layout';
+import './App.css';
 
-// console.log(import.meta.env.VITE_API_BASE_URL)
+const ProtectedRoute = ({ children }) => {
+  const { isAuth, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  return isAuth ? children : <Navigate to="/login" replace />;
+};
+
+const PublicRoute = ({ children }) => {
+  const { isAuth, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  return !isAuth ? children : <Navigate to="/dashboard" replace />;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Router>
+      <div className="app">
+        <Routes>
+          <Route path="/login" element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          } />
+
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }>
+            <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="tasks" element={<TaskList />} />
+            <Route path="tasks/new" element={<TaskForm />} />
+            <Route path="tasks/:id" element={<TaskDetail />} />
+            <Route path="tasks/:id/edit" element={<TaskForm />} />
+            <Route path="secrets" element={<SecretList />} />
+            <Route path="secrets/new" element={<SecretForm />} />
+            <Route path="secrets/:id" element={<SecretDetail />} />
+            <Route path="secrets/:id/edit" element={<SecretForm />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;

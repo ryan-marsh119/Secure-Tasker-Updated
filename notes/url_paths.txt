@@ -15,6 +15,24 @@
 /api/admin/auth/user/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:auth_user_history
 /api/admin/auth/user/add/	django.contrib.auth.admin.add_view	admin:auth_user_add
 /api/admin/autocomplete/	django.contrib.admin.sites.autocomplete_view	admin:autocomplete
+/api/admin/axes/accessattempt/	django.contrib.admin.options.changelist_view	admin:axes_accessattempt_changelist
+/api/admin/axes/accessattempt/<path:object_id>/	django.views.generic.base.RedirectView
+/api/admin/axes/accessattempt/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:axes_accessattempt_change
+/api/admin/axes/accessattempt/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:axes_accessattempt_delete
+/api/admin/axes/accessattempt/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:axes_accessattempt_history
+/api/admin/axes/accessattempt/add/	django.contrib.admin.options.add_view	admin:axes_accessattempt_add
+/api/admin/axes/accessfailurelog/	django.contrib.admin.options.changelist_view	admin:axes_accessfailurelog_changelist
+/api/admin/axes/accessfailurelog/<path:object_id>/	django.views.generic.base.RedirectView
+/api/admin/axes/accessfailurelog/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:axes_accessfailurelog_change
+/api/admin/axes/accessfailurelog/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:axes_accessfailurelog_delete
+/api/admin/axes/accessfailurelog/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:axes_accessfailurelog_history
+/api/admin/axes/accessfailurelog/add/	django.contrib.admin.options.add_view	admin:axes_accessfailurelog_add
+/api/admin/axes/accesslog/	django.contrib.admin.options.changelist_view	admin:axes_accesslog_changelist
+/api/admin/axes/accesslog/<path:object_id>/	django.views.generic.base.RedirectView
+/api/admin/axes/accesslog/<path:object_id>/change/	django.contrib.admin.options.change_view	admin:axes_accesslog_change
+/api/admin/axes/accesslog/<path:object_id>/delete/	django.contrib.admin.options.delete_view	admin:axes_accesslog_delete
+/api/admin/axes/accesslog/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:axes_accesslog_history
+/api/admin/axes/accesslog/add/	django.contrib.admin.options.add_view	admin:axes_accesslog_add
 /api/admin/jsi18n/	django.contrib.admin.sites.i18n_javascript	admin:jsi18n
 /api/admin/login/	django.contrib.admin.sites.login	admin:login
 /api/admin/logout/	django.contrib.admin.sites.logout	admin:logout
@@ -34,6 +52,8 @@
 /api/admin/tasks/task/<path:object_id>/history/	django.contrib.admin.options.history_view	admin:tasks_task_history
 /api/admin/tasks/task/add/	django.contrib.admin.options.add_view	admin:tasks_task_add
 /api/secret/	secret_data.views.SecretLevelView	secret-level
+/api/secret/supervisor/	secret_data.views.SecretSupervisorList	secret-supervisor-list
+/api/secret/supervisor/<int:pk>	secret_data.views.SecretSupervisorDetail	secret-supervisor-detail
 /api/secret/user-permissions/	secret_data.views.UserPermissionsView	user-permissions
 /api/tasks/	tasks.views.TaskList	task-list
 /api/tasks/<int:pk>/	tasks.views.TaskDetail	task-detail
