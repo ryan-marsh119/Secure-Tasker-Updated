@@ -14,7 +14,6 @@ const TaskForm = () => {
     description: '',
     completed: false,
     date_completed: null,
-    user_completed: ''
   });
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +31,6 @@ const TaskForm = () => {
             description: response.data.description || '',
             completed: response.data.completed || false,
             date_completed: response.data.date_completed || null,
-            user_completed: response.data.user_completed || ''
           });
         } catch (err) {
           console.error('Failed to fetch task:', err);
@@ -89,7 +87,6 @@ const TaskForm = () => {
           <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" required />
           <input type="checkbox" name="completed" checked={formData.completed} onChange={handleChange} /> Completed
           <input type="datetime-local" name="date_completed" value={formData.date_completed || ''} onChange={handleChange} />
-          <input name="user_completed" value={formData.user_completed} onChange={handleChange} placeholder="User Completed" />
         </>
       )}
       <button type="submit" disabled={loading}>Save Task</button>

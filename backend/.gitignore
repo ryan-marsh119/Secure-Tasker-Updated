@@ -8,6 +8,8 @@ wheels/
 
 # Virtual environments
 .env
+.env.local
+.env.docker
 
 # Notes folder
 notes/

@@ -149,7 +149,7 @@ const SecretDetail = () => {
               <p>{secret.id}</p>
             </div>
 
-            <div className="detail-item">
+            {/* <div className="detail-item">
               <h4>Created Date</h4>
               <p>{new Date(secret.created_at).toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -171,7 +171,7 @@ const SecretDetail = () => {
                   minute: '2-digit'
                 })}</p>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

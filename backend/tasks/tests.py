@@ -119,11 +119,9 @@ class TaskTest(APITestCase):
         client = APIClient()
         url = reverse('task-detail', args=[self.task_1.id])
         refresh = RefreshToken.for_user(self.secret_user)
-
         data = {
             'completed': True,
-            'date_completed': str(datetime.now()),
-            'user_completed': str(self.secret_user.username),
+            'user_completed': self.secret_user.id,
         }
 
         # Updating task_1 with data.
@@ -232,7 +230,7 @@ class TaskTest(APITestCase):
         data = {
             'completed': True,
             'date_completed': str(datetime.now()),
-            'user_completed': str(self.supervisor_user.username),
+            'user_completed': self.supervisor_user.id,
         }
 
         # Updating task_2 with data.

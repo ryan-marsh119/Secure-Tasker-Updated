@@ -7,6 +7,7 @@ from rest_framework import status
 from cryptography.fernet import InvalidToken
 from secret_data.permissions import IsInSecretGroup, IsInSupervisorGroup
 from django.http import Http404
+from datetime import datetime
         
 class TaskList(APIView):
     permission_classes = [IsAuthenticated, IsInSecretGroup]
@@ -42,11 +43,34 @@ class TaskDetail(APIView):
     
     def put(self, request, pk, format=None):
         task = self.get_object(pk)
-        serializer=TaskSerializer(task, data=request.data, partial=True)
+
+        # if 'date_completed' not in request.data:
+        #     request.data['date_completed'] = datetime.now()
+
+        user_id = request.user.id
+        # print(f"Authenteicated user id: {user_id}")
+
+        data = request.data.copy()
+
+        data['user_completed'] = user_id
+
+        if data.get('completed') is True or str(data.get('completed')).lower() == 'true':
+            if 'date_completed' not in data:
+                data['date_completed'] = datetime.now()
+
+        else:
+            data['date_completed'] = None
+
+        # print("DATA!!!!!!!!!!!!!!!!!!!!!")
+
+        # print(data)
+
+        # return Response("Hello from TaskDetail put endpoint", status=status.HTTP_200_OK)
+        serializer=TaskSerializer(task, data=data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

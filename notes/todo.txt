@@ -1,0 +1,61 @@
+###############supervisor cannot delete secret_data from frontend
+
+code
+: 
+"ERR_BAD_REQUEST"
+config
+: 
+{transitional: {…}, adapter: Array(3), transformRequest: Array(1), transformResponse: Array(1), timeout: 5000, …}
+message
+: 
+"Request failed with status code 404"
+name
+: 
+"AxiosError"
+request
+: 
+XMLHttpRequest {onreadystatechange: null, readyState: 4, timeout: 5000, withCredentials: false, upload: XMLHttpRequestUpload, …}
+response
+: 
+{data: '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta ht…d 404 page.\n    </p>\n  </footer>\n</body>\n</html>\n', status: 404, statusText: 'Not Found', headers: ht, config: {…}, …}
+status
+: 
+404
+stack
+: 
+"AxiosError: Request failed with status code 404\n    at Gm (http://localhost:3000/assets/index-zw0i7plc.js:11:1083)\n    at XMLHttpRequest.k (http://localhost:3000/assets/index-zw0i7plc.js:11:5822)\n    at ua.request (http://localhost:3000/assets/index-zw0i7plc.js:13:2094)\n    at async S (http://localhost:3000/assets/index-zw0i7plc.js:14:21015)"
+[[Prototype]]
+: 
+Error
+
+#############supervisor cannot update secret_data message from frontend:
+
+te {message: 'Request failed with status code 404', name: 'AxiosError', code: 'ERR_BAD_REQUEST', config: {…}, request: XMLHttpRequest, …}
+code
+: 
+"ERR_BAD_REQUEST"
+config
+: 
+{transitional: {…}, adapter: Array(3), transformRequest: Array(1), transformResponse: Array(1), timeout: 5000, …}
+message
+: 
+"Request failed with status code 404"
+name
+: 
+"AxiosError"
+request
+: 
+XMLHttpRequest {onreadystatechange: null, readyState: 4, timeout: 5000, withCredentials: false, upload: XMLHttpRequestUpload, …}
+response
+: 
+{data: '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta ht…d 404 page.\n    </p>\n  </footer>\n</body>\n</html>\n', status: 404, statusText: 'Not Found', headers: ht, config: {…}, …}
+status
+: 
+404
+stack
+: 
+"AxiosError: Request failed with status code 404\n    at Gm (http://localhost:3000/assets/index-zw0i7plc.js:11:1083)\n    at XMLHttpRequest.k (http://localhost:3000/assets/index-zw0i7plc.js:11:5822)\n    at ua.request (http://localhost:3000/assets/index-zw0i7plc.js:13:2094)\n    at async y (http://localhost:3000/assets/index-zw0i7plc.js:14:27797)"
+[[Prototype]]
+: 
+Error
+

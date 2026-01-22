@@ -128,7 +128,7 @@ const SecretList = () => {
                   </p>
                 </div>
 
-                <div className="secret-meta">
+                {/* <div className="secret-meta">
                   <div className="meta-item">
                     <span className="label">Created:</span>
                     <span className="value">
@@ -144,7 +144,7 @@ const SecretList = () => {
                       </span>
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
 
               <div className="secret-actions">

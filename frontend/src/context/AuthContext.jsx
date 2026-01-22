@@ -15,17 +15,18 @@ export const AuthProvider = ({ children }) => {
     const [isAuth, setIsAuth] = useState(false);
     const [userRole, setUserRole] = useState('unknown');  // Add role state
     const [userPermissions, setUserPermissions] = useState({});  // Add permissions state
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         const checkAuth = async () => {
             if (isAuthenticated()) {
                 setIsAuth(true);
-                await fetchUserPermissions();  // Fetch permissions if authenticated
+                await fetchUserData();  // Fetch permissions if authenticated
             } else {
                 try {
                     await refreshToken();
                     setIsAuth(true);
-                    await fetchUserPermissions();
+                    await fetchUserData();
                 } catch {
                     setIsAuth(false);
                 }
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
         checkAuth();
     }, []);
 
-    const fetchUserPermissions = async () => {
+    const fetchUserData = async () => {
         try {
             const response = await api.get('/api/secret/user-permissions/');
             const permissions = response.data || {};
