@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm
+FROM ghcr.io/astral-sh/uv:python3.12-alpine
 
 ENV PYTHONUNBUFFERED=1
 
@@ -14,4 +14,4 @@ COPY . ./
 
 RUN chmod a+x docker-entrypoint.sh
 
-CMD ["uv", "run", "./docker-entrypoint.sh"]
+CMD ["uv", "run", "sh", "./docker-entrypoint.sh"]

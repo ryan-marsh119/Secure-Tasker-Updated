@@ -1,14 +1,14 @@
 services:
   postgres:
     container_name: postgres
-    image: postgres:18
+    image: postgres:18-alpine
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: tasker_db
     volumes:
-      - postgres_data:/var/lib/postgresql/
+      - postgres_data:/var/lib/postgresql
 
   backend:
     container_name: backend

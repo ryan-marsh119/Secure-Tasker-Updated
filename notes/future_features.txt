@@ -1,0 +1,22 @@
+General
+    reintroduce nginx into the docker containers
+
+Frontend
+    - separate components for secret permissions and supervisor permissions.
+        - secret users can only update the "completed" field for tasks
+        - supervisors can edit all fields
+
+    - give supervisors ability to grant/revoke permissions for users.
+        - see a list of all users and current permissions
+        - select user, select permission, hit save button with a pop-up asking if the supervisor is "sure" before saving
+
+    - add user profile that shows completed tasks
+
+Backend
+    - add a register endpoint to create users.
+
+    - add endpoint for users to view tasks they have completed
+        - join user table to tasks table
+
+    - event listener for update to tasks
+        - automatically set the time completed when "completed" column is set to True
